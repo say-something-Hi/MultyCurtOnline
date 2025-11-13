@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=sqlite:///database/ecommerce.db
+    volumes:
+      - ./database:/app/database
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  # Optional: Add Redis for session management later
+  # redis:
+  #   image: redis:alpine
+  #   ports:
+  #     - "6379:6379"
+  #   restart: unless-stopped
