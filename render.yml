@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: ecommerce-bot
+    env: python
+    plan: free
+    branch: main
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r backend/requirements.txt
+      mkdir -p database logs
+      python backend/app.py &
+      sleep 5
+    startCommand: gunicorn backend.app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: 5000
